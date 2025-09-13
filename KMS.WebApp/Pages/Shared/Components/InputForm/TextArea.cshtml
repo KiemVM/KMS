@@ -1,0 +1,33 @@
+﻿@model InputFormViewModel
+@if (!string.IsNullOrWhiteSpace(Model.Id))
+{
+    var className = "col-lg-12 form-control form-control-floating card";
+    @if (!Model.IsLabel)
+    {
+        className = "col-lg-12 form-control-floating mt-3";
+    }
+
+    <div class="form-group row ">
+        <div class="@className">
+            @if (!string.IsNullOrEmpty(Model.FuncJsOnchange))
+            {
+                <textarea id="@Model.Id" class="form-input @(Model.Type)" onchange="@(Model.FuncJsOnchange)" rows="4">@Html.Raw(Model.Value)</textarea>
+
+            }
+            else
+            {
+                <textarea id="@Model.Id" class="form-input @(Model.Type)" rows="4">@Html.Raw(Model.Value)</textarea>
+            }
+            @if (Model.IsLabel)
+            {
+                <label class="form-label" for="@Model.Id">
+                    @Model?.Text
+                    @if (Model?.IsRequire ?? false)
+                    {
+                        <span class="text-danger">*</span>
+                    }
+                </label>
+            }
+        </div>
+    </div>
+}

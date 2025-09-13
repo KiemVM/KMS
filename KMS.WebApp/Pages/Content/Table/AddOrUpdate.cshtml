@@ -1,0 +1,43 @@
+@page "/Table/AddOrUpdate"
+@model AddOrUpdateModel
+@{
+    Layout = null;
+}
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered mw-800px">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="span-header"><img src="/images/logo.png" style="width: 30px" /> @Model.Title</span>
+            <button class="btn btn-sm btn-icon" data-bs-dismiss="modal">
+                <span class="icon">
+                    <i class="las la-times fs-1 text-white"></i>
+                </span>
+            </button>
+        </div>
+        <div class="modal-body py-lg-10">
+            <div class="w-100">
+                <div class="row">
+                    <div class="col-lg-4 mb-3">
+                        <partial name=@InputForm.TextBox model="@(Model.InputFormViewModels.FirstOrDefault(x=>x.Id==nameof(TableViewModel.Name)))" />
+                    </div>
+                </div>
+            </div>
+            <div class="text-right mt-5 me-1">
+                <button type="button" class="btn btn-light w-125px" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary w-125px  ms-2" onclick="Save()">Lưu lại</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function Save() {
+        objAjax.parameters = {
+            Id: "@Model.Id",
+            Name: $('#@nameof(TableViewModel.Name)').val()
+        };
+        objAjax.divLoading = ".show>>>.modal-body";
+        AjaxAsync("@Model.UrlAjax", window.objAjax,
+            function (data) {
+                window.location.reload();
+            });
+    }
+</script>

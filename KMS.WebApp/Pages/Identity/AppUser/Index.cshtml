@@ -1,0 +1,168 @@
+﻿@page "/nguoi-dung"
+@model IndexModel
+@{
+    ViewBag.Title = ConstTitle.User;
+    ViewBag.ActiveMenu = ConstPathUrl.User;
+}
+<div class="content flex-column-fluid" id="kt_content">
+    <div class="toolbar d-flex flex-stack flex-wrap" id="kt_toolbar">
+        <div class="page-title d-flex flex-column py-1">
+            <h1 class="d-flex align-items-center my-1">
+                <span class="text-primary fw-bolder fs-1 ms-1">@ViewBag.Title</span>
+            </h1>
+        </div>
+    </div>
+    <div class="card-header" style="border-bottom: none;">
+        <div class="col-lg-12">
+            <div class="row border-0 pt-4">
+                <div class="col-lg-2">
+                    <div class="row">
+                        <div class="form-control form-control-floating card">
+                            <input placeholder="none" type="text" class="form-input" id="Search" onchange="Search()" value="@Html.Raw(Model.Search)">
+                            <label class="form-label">Tìm kiếm....</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="row">
+                        <div class="form-control form-control-floating card">
+                            <select id="UserType" placeholder="none" class="form-input form-select" data-control="select2" data-placeholder="Chưa chọn" data-minimum-results-for-search="Infinity" onchange='Search()'>
+                                <option value="@UserType.All.Value()">@Html.Raw(UserType.All.Display())</option>
+                                <option value="@UserType.Admin.Value()">@Html.Raw(UserType.Admin.Display())</option>
+                                <option value="@UserType.User.Value()">@Html.Raw(UserType.User.Display())</option>
+                            </select>
+                            <label class="form-label" for="UserType">Loại tài khoản</label>
+                            <script type="text/javascript">
+                                $('#UserType').val(parseInt('@Model.UserType.Value()')).trigger();
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 text-end">
+                    @if (User.CheckPermissions(Permissions.User.Insert))
+                    {
+                        <a type="button" class="btn btn-primary" href="javascript:AddOrUpdate('@Guid.Empty','@UserType.Admin')">
+                            <i class="las la-plus-circle fs-1 text-white"></i>
+                            <span>
+                                Admin
+                            </span>
+                        </a>
+                        <a type="button" class="btn btn-primary" href="javascript:AddOrUpdate('@Guid.Empty','@UserType.User')">
+                            <i class="las la-plus-circle fs-1 text-white"></i>
+                            <span>
+                                User
+                            </span>
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body py-3">
+        <div class="table-responsive">
+            <table class="table table-row-dashed table-row-bordered table-row-gray-300 align-middle gs-0" id="ItemModel">
+                <thead>
+                    <tr class="fw-bolder bg-primary text-white">
+                        <th class="w-200px text-center">Tên đăng nhập</th>
+                        <th class="w-200px text-center">Email</th>
+                        <th class="text-center">Họ và tên</th>
+                        <th class="w-170px text-center">Chức vụ</th>
+                        <th class="w-170px text-center">Sinh nhật</th>
+                        <th class="w-150px text-center">Số điện thoại</th>
+                        <th class="w-200px text-center">Số tài khoản</th>
+                        <th class="w-150px text-center">Chức năng</th>
+                        <th class="w-50px"></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model?.PagedResult?.RowCount == 0)
+                    {
+                        <partial name="~/Pages/Shared/Components/Empty/Table.cshtml" model="10" />
+                    }
+                    else
+                    {
+                        foreach (var obj in Model?.PagedResult?.Results! ?? new List<AppUserViewModel>())
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    @await Component.InvokeAsync("ButtonViewDetail", Model?.ViewDetailRole(obj))
+                                </td>
+                                <td>
+                                    @obj.Email
+                                </td>
+                                <td class="">
+                                    <div class="symbol symbol-30px">
+                                        <img src="@(obj?.Avatar ?? "/images/avatar.png")" alt="">
+                                    </div>
+                                    @obj.FullName
+                                </td>
+                                <td>
+                                    @obj.Position
+                                </td>
+                                <td class="text-center">
+                                    @obj.Dob.ConvertDateToString()
+                                </td>
+                                <td class="text-center">
+                                    @obj.PhoneNumber
+                                </td>
+                                <td>
+                                    @obj.BankNumber
+                                </td>
+                                <td class="text-center">
+                                    @await Component.InvokeAsync("ButtonUpdate", Model?.UpdateRole(obj))
+                                    @await Component.InvokeAsync("ButtonRemove", Model?.RemoveRole(obj))
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(x => obj!.AvatarViewModel)
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            @await Component.InvokeAsync("Pager", Model?.PagedResult)
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-select2" id="FormOpen" data-bs-backdrop="static" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+</div>
+<script type="text/javascript">
+    function Search() {
+        var dataSearch = {
+            PageIndex: 1,
+            PageSize: $("#PageSize").val(),
+            Search: $("#Search").val(),
+            UserType: $("#UserType").val()
+        };
+        var url = "";
+        if (dataSearch.PageIndex >= 1) url += window.location.pathname + "?PageIndex=1";
+        if (dataSearch.PageSize !== "") url += "&PageSize=" + dataSearch.PageSize;
+        if (dataSearch.Search !== "") url += "&Search=" + dataSearch.Search;
+        if (dataSearch.UserType !== "@UserType.All.Value()") url += "&UserType=" + dataSearch.UserType;
+        url = decodeURI(url);
+        window.location.href = url;
+    }
+
+    function AddOrUpdate(id, type) {
+        var url = CreateURL("/User/AddOrUpdate", { Id: id, Type: type });
+        AjaxLoadPartial(url, '.show>>>.modal-body',
+            function (html) {
+                $("#FormOpen").html(html);
+                $('#FormOpen').modal('show');
+                LoadAll();
+            });
+    }
+
+    function ViewDetail(id) {
+        var url = CreateURL("/User/ViewDetail", { Id: id });
+        AjaxLoadPartial(url, '.show>>>.modal-body',
+            function (html) {
+                $("#FormOpen").html(html);
+                $('#FormOpen').modal('show');
+                LoadAll();
+            });
+    }
+</script>

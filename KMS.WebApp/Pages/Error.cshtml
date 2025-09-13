@@ -1,0 +1,41 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Error";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Có lỗi xảy ra</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:type" content="article" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+    <link href="https://preview.keenthemes.com/metronic8/demo5/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+</head>
+<body id="kt_body" class="app-blank bgi-size-cover bgi-position-center bgi-no-repeat">
+<div class="d-flex flex-column flex-root">
+    <style>
+        body {
+            background-image: url('https://preview.keenthemes.com/metronic8/demo5/assets/media/auth/bg7.jpg');
+        }
+    </style>
+    <div class="d-flex flex-column flex-center flex-column-fluid">
+        <div class="d-flex flex-column flex-center text-center p-10">
+            <div class="card card-flush w-lg-650px py-5">
+                <div class="card-body py-15 py-lg-20">
+                    <h1 class="fw-bolder fs-2qx text-gray-900 mb-4">Có lỗi xảy ra</h1>
+                    <div class="fw-semibold fs-6">Mã lỗi: <b style="color: red;">@Model.LogErrorId</b></div>
+                    <div class="fw-semibold fs-6 text-gray-500 mb-7">Vui lòng gửi mã lỗi cho team IT hỗ trợ xử lý.</div>
+                    <div class="mb-11">
+                        <img src="https://preview.keenthemes.com/metronic8/demo5/assets/media/auth/500-error.png" class="mw-100 mh-300px theme-light-show" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

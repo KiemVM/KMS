@@ -1,0 +1,25 @@
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 8443
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy các file csproj trước để tận dụng cache cho restore
+COPY KMS.WebApp/*.csproj KMS.WebApp/
+COPY KMS.Data/*.csproj KMS.Data/
+COPY KMS.Core/*.csproj KMS.Core/
+COPY KMS.Common/*.csproj KMS.Common/
+
+# Restore chỉ khi csproj thay đổi
+RUN dotnet restore KMS.WebApp/KMS.WebApp.csproj
+
+# Copy toàn bộ source code
+COPY . .
+
+RUN dotnet publish KMS.WebApp/KMS.WebApp.csproj -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "KMS.WebApp.dll"]

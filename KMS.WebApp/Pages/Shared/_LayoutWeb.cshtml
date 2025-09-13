@@ -1,0 +1,87 @@
+﻿<!doctype html>
+<html lang="vi">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index,follow" />
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="Duy Trí PC - Chuyên Cung Cấp Server, Máy Tính Đồ Họa, PC Workstation, Linh Kiện Máy Tính, computer ✳️ Máy tính Duy Trí hỗ trợ trả góp, Giao hàng toàn quốc." />
+    <meta name="keywords" content="" />
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="Duy Trí PC - Chuyên Cung Cấp Server, Máy Tính Đồ Họa, PC Workstation, Linh Kiện Máy Tính, computer ✳️ Máy tính Duy Trí hỗ trợ trả góp, Giao hàng toàn quốc." />
+    <meta property="og:image:alt" content="Duy Trí PC - Chuyên Cung Cấp Máy Tính Đồ Họa Cao Cấp - Bảo Hành Tại Nơi Sử Dụng">
+    <meta property="og:url" content="index.html" />
+    <meta name="twitter:card" content="Duy Trí PC - Chuyên Cung Cấp Server, Máy Tính Đồ Họa, PC Workstation, Linh Kiện Máy Tính, computer ✳️ Máy tính Duy Trí hỗ trợ trả góp, Giao hàng toàn quốc." />
+    <meta name="twitter:site" content="@@SaaS" />
+    <meta name="twitter:title" content="@ViewBag.Title" />
+    <meta name="twitter:description" content="Duy Trí PC - Chuyên Cung Cấp Server, Máy Tính Đồ Họa, PC Workstation, Linh Kiện Máy Tính, computer ✳️ Máy tính Duy Trí hỗ trợ trả góp, Giao hàng toàn quốc." />
+    <meta property="og:image" content="media/lib/0_9221_thumbnairweb2.png" />
+    <meta name="twitter:image" content="media/lib/0_9221_thumbnairweb2.png" />
+    <div id="js-fontawesome-lib"></div>
+    <link href="~/website/css/library.css" rel="stylesheet" />
+    <link href="~/website/css/pc_style.css" rel="stylesheet" />
+    <link href="~/website/css/KMS.css" rel="stylesheet" />
+    <link href="~/website/css/buildPC.css" rel="stylesheet" />
+    <link href="@ConstUrl.WebCdn/summernote/summernote-bs4.min.css" rel="stylesheet" />
+    <script src="https://static.gleecdn.com/hura8/v2/hura8.js?5"></script>
+    <script src="https://static.gleecdn.com/hura8/v2/vendors.js?5"></script>
+    <script src="https://www.tiktok.com/embed.js"></script>
+    <script src="@ConstUrl.WebCdn/summernote/summernote-bs4.min.js"></script>
+    <!-- SwiperJS CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <script src="~/website/js/library.js"></script>
+    <script src="~/website/js/site.js"></script>
+    <script src="~/website/js/homepage-enhanced.js"></script>
+</head>
+<body>
+    
+    <div class="homepage">
+        @RenderBody()
+    </div>
+
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/sf-pro-display">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <!-- SwiperJS JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+
+        $(document).ready(function(){
+            $('.showroom-carousel').owlCarousel({
+                loop: true,
+                margin: 24,
+                nav: true,
+                dots: true,
+                responsive: {
+                    0: { items: 1 },
+                    600: { items: 2 },
+                    1024: { items: 4 }
+                }
+            });
+        });
+        new Swiper('.footer-gallery.swiper', {
+            slidesPerView: 'auto',
+            spaceBetween: 16,
+            loop: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            },
+            breakpoints: {
+                0: { slidesPerView: 1 },
+                600: { slidesPerView: 2 },
+                900: { slidesPerView: 4 }
+            }
+        });
+    </script>
+
+</body>
+</html>
+

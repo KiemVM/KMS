@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-bs-theme-mode="light">
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:url" content="" />
+    <meta property="og:site_name" content="" />
+    <link rel="canonical" href="" />
+
+    <link href="@ConstUrl.WebCdn/assets/2.0/css/plugins.bundle.min.css" rel="stylesheet" type="text/css" />
+    <link href="@ConstUrl.WebCdn/assets/2.0/css/style.bundle.min.css" rel="stylesheet" type="text/css" />
+    <link href="@ConstUrl.WebCdn/assets/2.0/css/jquery.loading.min.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link href="@ConstUrl.WebCdn/assets/2.0/css/_layout.min.css" rel="stylesheet" type="text/css" />
+    <link href="@ConstUrl.WebCdn/assets/2.0/css/CE.min.css" rel="stylesheet" />
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/plugins.bundle.min.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/scripts.bundle.min.js"></script>
+    <script src="~/js/library.js" asp-append-version="true"></script>
+    <link href="@ConstUrl.WebCdn/assets/2.0/css/fullcalendar.bundle.min.css" rel="stylesheet" type="text/css" />
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/fullcalendar.bundle.min.js"></script>
+    <link href="@ConstUrl.WebCdn/assets/2.0/css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="@ConstUrl.WebCdn/summernote/summernote-bs4.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+    <script type="text/javascript">
+        var objAjax = {
+            parameters: undefined,
+            divLoading: undefined
+        }
+    </script>
+</head>
+<body id="kt_app_body" data-kt-app-header-fixed="true" data-kt-app-header-fixed-mobile="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" data-kt-app-aside-enabled="true" data-kt-app-aside-fixed="true" data-kt-app-aside-push-toolbar="true" data-kt-app-aside-push-footer="true" class="app-default">
+    <script>var defaultThemeMode = "light"; var themeMode; if (document.documentElement) { if (document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if (localStorage.getItem("data-bs-theme") !== null) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
+    <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
+        <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
+            @await Component.InvokeAsync("GetMenu")
+            <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+                @await Component.InvokeAsync("GetSidebar")
+                <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+                    <div class="d-flex flex-column flex-column-fluid">
+                        <div id="kt_app_content" class="app-content flex-column-fluid">
+                            <div id="kt_app_content_container" class="app-container container-fluid">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                    <div id="kt_app_footer" class="app-footer">
+                        <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
+                            <div class="text-dark order-2 order-md-1">
+                                <span class="text-muted fw-semibold me-1">@DateTime.Now.Year &copy;</span>
+                                <a href="" target="_blank" class="text-gray-800 text-hover-primary">SaaS PC</a>
+                            </div>
+                            <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
+                                <li class="menu-item">
+                                    <a href="" target="_blank" class="menu-link px-2">About</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="" target="_blank" class="menu-link px-2">Support</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
+        <i class="ki-outline ki-arrow-up"></i>
+    </div>
+    <div class="modal fade modal-select2" id="ShowImg" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered mw-800px mh-900px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="span-header"><img src="~/images/logo-while.png" style="width: 50px" /><span>Hình ảnh</span></span>
+                    <div class="btn btn-sm btn-icon" data-bs-dismiss="modal">
+                        <span class="icon">
+                            <i class="las la-times fs-1 text-white"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body py-lg-10">
+                    <div class="current" data-kt-stepper-element="content">
+                        <div class="w-100">
+                            <img style="width: 700px;height: 800px;" id="imgModal" src="" alt="" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function ShowImg(url) {
+            $("#imgModal").attr("src", url);
+            $('#ShowImg').modal('show');
+        }
+    </script>
+
+    <script src="@ConstUrl.WebCdn/summernote/summernote-bs4.min.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/jquery-ui.min.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/readmore.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/jquery.loading.min.min.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/site.min.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/CE.min.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/jquery.repeater.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/plugins/custom/inputmask/jquery.inputmask.js"></script>
+    <script src="@ConstUrl.WebCdn/js/jquery.cookie.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/site.min.js"></script>
+    
+    <script src="~/js/site.js"></script>
+    <script type="text/javascript">
+        var ProjectName = "@ConstSystem.ProjectName";
+        var ConstUrl = {
+            ApiErrorCrm: "@ConstUrl.ApiErrorCrm",
+            WebFile: "@ConstUrl.WebFile",
+            WebCrm: "@ConstUrl.WebCrm",
+            WebCdn: "@ConstUrl.WebCdn"
+        }
+        $(document).ready(function () {
+            LoadAll();
+
+            $("a[href='@ViewBag.ActiveMenu']").addClass("active");
+            $("a[href='@ViewBag.ActiveMenu']").parent().addClass("show hover");
+            $("a[href='@ViewBag.ActiveMenu']").parent().parent().addClass("show hover");
+            $("a[href='@ViewBag.ActiveMenu']").parent().parent().parent().addClass("show hover");
+
+
+            $(document).on('select2:open', () => {
+                document.querySelector('.select2-container--open .select2-search__field').focus();
+            });
+            $('.readmore').readmore(
+                {
+                    speed: 500,
+                    collapsedHeight: 15
+                });
+        });
+
+        function LoadAll() {
+            KTApp.init(); KTDrawer.init(); KTMenu.init(); KTScroll.init(); KTSticky.init(); KTSwapper.init(); KTToggle.init(); KTScrolltop.init(); KTDialer.init(); KTImageInput.init(); KTPasswordMeter.init()
+            $('[data-bs-toggle="tooltip"]').tooltip();
+            $('select[data-control="select2"]').select2();
+            LoadFlatpickr();
+            LoadInputmask();
+            LoadCE();
+        }
+        function LoadCE() {
+            $(".gg-ce").CE({ maxHeight: 40, lineheight: '36px' });
+            $(".gg-ce-1").CE({ maxHeight: 20, lineheight: '18px' });
+        }
+        //Đăng xuất hệ thống
+        function LogOut() {
+            window.objAjax.parameters = undefined;
+            window.objAjax.divLoading = "body";
+            AjaxGetAsync("/Api/Auth/Logout",
+                window.objAjax,
+                function (data) {
+                    debugger
+                    window.location.href = "/Login";
+                });
+        }
+
+        function ChangePass() {
+            if (!ValidatePass()) return;
+            window.objAjax.parameters = {
+                PasswordNew: $("#PasswordNew").val(),
+                PasswordOld: $("#PasswordOld").val()
+            };
+            window.objAjax.isFuntConfirm = true;
+            window.objAjax.divLoading = "#changePassModal";
+            AjaxPostAsync("/Api/User/ChangePassword",
+                window.objAjax,
+                function (data) {
+                    if (data !== "") {
+                        SwalMessage(data, "", 650, "error");
+                    } else {
+                        LogOut();
+                    }
+                });
+        }
+        function ValidatePass() {
+            if ($("#PasswordOld").val() === '') {
+                SwalNotifyWarning("Bạn chưa nhập Mật khẩu cũ");
+                return false;
+            }
+            if ($("#PasswordNew").val() === '') {
+                SwalNotifyWarning("Bạn chưa nhập Mật khẩu mới");
+                return false;
+            }
+            if ($("#PasswordNew").val().length < 6) {
+                SwalNotifyWarning("Mật khẩu mới phải có nhiều hơn 6 ký tự");
+                return false;
+            }
+            if ($("#PasswordNew").val() === $("#PasswordOld").val()) {
+                SwalNotifyWarning("Mật khẩu cũ và mật khẩu mới trùng nhau");
+                return false;
+            }
+            return true;
+        }
+        var url = window.location.pathname;
+        $("a.menu-link").filter(function () {
+            return this.pathname === url && url.indexOf('Profile') === -1;
+        }).addClass("active");
+
+        $("a.menu-link").filter(function () {
+            return this.pathname === url && url.indexOf('Profile') === -1;
+        }).parent().addClass("show hover");
+
+        $("a.menu-link").filter(function () {
+            return this.pathname === url && url.indexOf('Profile') === -1;
+        }).parent().parent().addClass("show hover");
+
+        $("a.menu-link").filter(function () {
+            return this.pathname === url && url.indexOf('Profile') === -1;
+        }).parent().parent().parent().addClass("show hover");
+
+        $("a.menu-link").filter(function () {
+            return this.pathname === url && url.indexOf('Profile') === -1;
+        }).parent().parent().parent().parent().addClass("show hover");
+
+        $("a.menu-link").filter(function () {
+            return this.pathname === url && url.indexOf('Profile') === -1;
+        }).parent().parent().parent().parent().parent().addClass("show hover");
+
+    </script>
+</body>
+</html>

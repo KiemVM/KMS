@@ -1,0 +1,104 @@
+﻿@page "/"
+@model IndexModel
+@{
+    ViewData["Title"] = "SaaS";
+    Layout = "Shared/_LayoutWeb";
+}
+<a href="/cong-ty" style="text-align: center"><h1>Hệ thống Saas Relay Service</h1></a>
+
+<style>
+    .dish-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        padding: 0;
+        list-style: none;
+    }
+
+    .dish-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        padding: 16px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+        .dish-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            background: #f8f8f8;
+        }
+
+        .dish-card .dish-name {
+            font-weight: 500;
+            margin-bottom: 6px;
+            font-size: 1.05em;
+        }
+
+        .dish-card .dish-price {
+            color: #e67e22;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .dish-card button {
+            background: #27ae60;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+            .dish-card button:hover {
+                background: #219150;
+            }
+
+    .table-list {
+        list-style: none;
+        padding: 0;
+    }
+
+        .table-list li {
+            margin-bottom: 8px;
+        }
+
+    .table-btn {
+        width: 100%;
+        padding: 8px 12px;
+        border: none;
+        background: #f2f2f2;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.2s;
+    }
+
+        .table-btn.selected {
+            background: #27ae60;
+            color: #fff;
+        }
+
+    .ordered-dishes {
+        list-style: none;
+        padding: 0;
+    }
+
+        .ordered-dishes li {
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+</style>

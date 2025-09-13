@@ -1,0 +1,26 @@
+﻿@model ButtonViewModel
+@if (Model.Id != Guid.Empty)
+{
+    if (!string.IsNullOrWhiteSpace(Model.Url))
+    {
+        <a href="@Model.Url" class="btn btn-icon btn-bg-white btn-active-color-primary btn-sm" data-bs-toggle="tooltip" data-placement="top" >
+            <i class="las la-pen-nib fs-1"></i>
+        </a>
+    }
+    else
+    {
+        if (Model.FuncJs.Contains("(") && Model.FuncJs.Contains(")"))
+        {
+            <a href="javascript:@(Model.FuncJs)" class="btn btn-icon btn-bg-white btn-active-color-primary btn-sm" data-bs-toggle="tooltip" data-placement="top" >
+                <i class="las la-pen-nib fs-1"></i>
+            </a>
+        }
+        else
+        {
+            <a href="javascript:AddOrUpdate('@Model.Id')" class="btn btn-icon btn-bg-white btn-active-color-primary btn-sm" data-bs-toggle="tooltip" data-placement="top" >
+                <i class="las la-pen-nib fs-1"></i>
+            </a>
+        }
+    }
+
+}

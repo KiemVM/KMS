@@ -1,0 +1,126 @@
+﻿@model PagedResultBase
+@{
+    var urlTemplate = Url.Action() + "?PageIndex={0}&PageSize=" + Model.PageSize;
+    var request = ViewContext.HttpContext.Request;
+    foreach (var key in request.Query.Keys)
+    {
+        if (key == "PageIndex" || key == "PageSize")
+        {
+            continue;
+        }
+
+        urlTemplate += "&" + key + "=" + request.Query[key];
+    }
+    while (urlTemplate.Contains("//"))
+    {
+        urlTemplate = urlTemplate.Replace("//", "/");
+    }
+    var startIndex = Math.Max(Model.CurrentPage - 3, 1);
+    var finishIndex = Math.Min(Model.CurrentPage + 3, Model.PageCount);
+}
+
+<div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start pt-4">
+    <div class="dataTables_info" role="status" aria-live="polite">
+        @((Model.CurrentPage - 1) * Model.PageSize + 1) <i class="las la-arrow-right fs-4" style="vertical-align: -1px;"></i> @(Model.CurrentPage * Model.PageSize) | Tổng: @Model.RowCount | Page Size:
+
+    </div>
+    <div class="input-group-sm" style="padding-left: 10px;">
+        <select class="form-control" onchange="LoadPageSize(this.value)" id="PageSize">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="@Model.PageCount">All</option>
+           
+        </select>
+        <script type="text/javascript">
+             $("#PageSize").val(@Html.Raw(Model.PageSize)).change();
+        </script>
+    </div>
+</div>
+<div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end pt-4">
+    <div class="dataTables_paginate paging_simple_numbers">
+        <ul class="pagination">
+            @if (Model.CurrentPage == startIndex)
+            {
+                <li class="paginate_button page-item previous disabled">
+                    <a href="javascript:void(0)" class="page-link">
+                        <i class="las la-angle-double-left fs-2"></i>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="paginate_button page-item previous">
+                    <a href="@urlTemplate.Replace("{0}", "1")" class="page-link">
+                        <i class="las la-angle-double-left fs-2"></i>
+                    </a>
+                </li>
+            }
+            <li class="paginate_button page-item previous">
+                <a href="javascript:LoadPageIndexValue(false)" class="page-link">
+                    <i class="las la-angle-left fs-2"></i>
+                </a>
+            </li>
+            <li class="input-group-sm">
+                <input type="text" class="form-control" id="CurrentPage" value="@Model.CurrentPage" style="width: 50px;text-align: center;" onchange="LoadPageIndex(this.value)">
+            </li>
+            <li style="padding-top: 5px;padding-left: 10px; padding-right: 10px;">
+                của <b style="font-size: 14px;" class="text-primary">@Model.PageCount</b> trang
+            </li>
+
+            <li class="paginate_button page-item next">
+                <a href="javascript:LoadPageIndexValue(true)" class="page-link">
+                    <i class="las la-angle-right fs-2"></i>
+                </a>
+            </li>
+            @if (Model.CurrentPage == finishIndex)
+
+            {
+                <li class="paginate_button page-item next disabled">
+                    <a class="page-link">
+                        <i class="las la-angle-double-right fs-2"></i>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="paginate_button page-item next">
+                    <a href="@urlTemplate.Replace("{0}", Model.PageCount.ToString())" class="page-link">
+                        <i class="las la-angle-double-right fs-2"></i>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    function htmlDecode(input) {
+        var doc = new DOMParser().parseFromString(input, "text/html");
+        return doc.documentElement.textContent;
+    }
+    window.LoadPageSize = function(parameters) {
+        debugger;
+        window.location.href = htmlDecode('@urlTemplate').replace("PageIndex={0}", "PageIndex=1").replace("PageSize=@Model.PageSize", "PageSize=" + parameters);
+    }
+    function LoadPageIndex(val) {
+        if (!CheckNumber(val)) return;
+        var page = parseInt(val);
+        if (page > parseInt('@Model.PageCount')) page = parseInt('@Model.PageCount');
+        if (page <= 1) page = 1;
+        window.location.href = htmlDecode('@urlTemplate').replace("{0}", page);
+    }
+    function LoadPageIndexValue(isNext) {
+        var val = $("#CurrentPage").val();
+        if (!CheckNumber(val)) return;
+        var page = parseInt(val);
+        if (isNext)
+            page = page + 1;
+        else
+            page = page - 1;
+        if (page > parseInt('@Model.PageCount')) page = parseInt('@Model.PageCount');
+        if (page <= 1) page = 1;
+        window.location.href = htmlDecode('@urlTemplate').replace("{0}", page);
+    }
+</script>

@@ -1,0 +1,426 @@
+@page "/Schema/AddOrUpdate"
+@using KMS.Core.Entities.Content
+@model AddOrUpdateModel
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.ActiveMenu = ConstPathUrl.Schema;
+}
+<div class="toolbar d-flex flex-stack flex-wrap ms-5 mb-5 mb-lg-5" id="kt_toolbar">
+    <div class="page-title d-flex flex-column py-1">
+        <h1 class="d-flex align-items-center my-1">
+            <span class="text-dark fw-bolder fs-1">@ViewBag.Title</span>
+        </h1>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-lg-12 mb-2">
+        <div class="row mb-3">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <partial name=@InputForm.TextBox model="@(Model.InputFormViewModels.FirstOrDefault(x => x.Id == nameof(SchemaViewModel.Name)))" />
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <partial name=@InputForm.TextBox model="@(Model.InputFormViewModels.FirstOrDefault(x => x.Id == nameof(SchemaViewModel.Database)))" />
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="form-group row">
+                        <div class="col-lg-12 form-control form-control-floating card">
+                            <select placeholder="none" class="form-input form-select" data-control="select2" id="ApplicationId" data-placeholder="Chọn" data-minimum-results-for-search="Infinity">
+                                <option value=""></option>
+                            </select>
+                            <label class="form-label" for="ApplicationId">Ứng dụng<span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                </div>
+                <div id="company-info" class="mb-3" style="display:none;">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Thông tin công ty</h5>
+                            <div><strong>Tên công ty:</strong> <span id="company-name"></span></div>
+                            <div><strong>Địa chỉ:</strong> <span id="company-address"></span></div>
+                            <div><strong>Email:</strong> <span id="company-email"></span></div>
+                            <div><strong>Điện thoại:</strong> <span id="company-phone"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hiển thị danh sách bảng -->
+    @foreach (var table in Model.SchemaViewModel.Tables)
+    {
+        var collapseId = $"collapse-table-{table.Id}";
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <a class="fw-bold text-dark" data-bs-toggle="collapse" href="#@collapseId" role="button" aria-expanded="false" aria-controls="@collapseId">
+                    <i class="bi bi-chevron-down me-2"></i>@table.Name
+                </a>
+                <div>
+                    <button class="btn btn-sm btn-primary" onclick="editTable('@table.Id')">Sửa</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteTable('@table.Id')">Xóa</button>
+                </div>
+            </div>
+            <div id="@collapseId" class="collapse">
+                <div class="card-body">
+                    <!-- Hiển thị danh sách trường -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tên trường</th>
+                                <th>Kiểu dữ liệu</th>
+                                <th>Mã hóa</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var column in table.TableDetails)
+                            {
+                                <tr>
+                                    <td>@column.Name</td>
+                                    <td>@column.DataType</td>
+                                    <td>@column.IsEncrypt</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="editColumn('@column.Id')">Sửa</button>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteColumn('@column.Id')">Xóa</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <button class="btn btn-success" onclick="addColumn('@table.Id')">Thêm trường</button>
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.Id != Guid.Empty)
+    {
+        <button class="btn btn-success" onclick="addTable()">Thêm bảng</button>
+    }
+    
+    <div style="text-align:right">
+        <div>
+            <button type="reset" class="btn btn-light me-3 w-120px" data-bs-dismiss="modal" onclick="back()">Quay lại</button>
+            <button type="button" class="btn btn-lg btn btn-primary btn-uni w-120px me-3" onclick="Save()">
+                Lưu
+                <span class="indicator-progress" id="LoadProgress">
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+            @if (Model.Id != Guid.Empty)
+            {
+                <button type="button" class="btn btn-lg btn btn-warning w-180px me-3" onclick="applyPolicy()">
+                    Áp dụng chính sách
+                </button>
+            }
+            
+        </div>
+    </div>
+</div>
+<!-- Modal Table -->
+<div class="modal fade" id="modalTable" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modalTableTitle" class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="modalTableId" />
+                <div class="mb-3">
+                    <label>Tên bảng</label>
+                    <input type="text" id="modalTableName" class="form-control" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveTable()">Lưu</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Column -->
+<div class="modal fade" id="modalColumn" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="modalColumnTitle" class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="modalColumnId" />
+                <input type="hidden" id="modalColumnTableId" />
+                <div class="mb-3">
+                    <label>Tên trường</label>
+                    <input type="text" id="modalColumnName" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label>Kiểu dữ liệu</label>
+                    <input type="text" id="modalColumnDataType" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label>Mã hóa</label>
+                    <input type="checkbox" id="modalColumnIsEncrypt" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveColumn()">Lưu</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="policyModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Đã gửi chính sách cho Relay Service!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        LoadComboboxTreeApiForName("#ApplicationId", "/Api/Application/SelectTreeByType?type=2", true , '@Html.Raw(Model?.SchemaViewModel.ApplicationId)', window.objAjax, "Ứng dụng");
+        // Khi chọn ứng dụng, lấy thông tin công ty
+        $('#ApplicationId').on('change', function() {
+            var appId = $(this).val();
+            if (appId) {
+                $.get('/Api/Application/GetCompanyInfoByApplicationId/' + appId, function(data) {
+                    if (data && data.success) {
+                        $('#company-info').show();
+                        $('#company-name').text(data.company.name || '');
+                        $('#company-address').text(data.company.address || '');
+                        $('#company-email').text(data.company.email || '');
+                        $('#company-phone').text(data.company.phone || '');
+                    } else {
+                        $('#company-info').hide();
+                    }
+                });
+            } else {
+                $('#company-info').hide();
+            }
+        });
+
+        setTimeout(function() {
+            var initialAppId = $('#ApplicationId').val();
+            if (initialAppId) {
+                $('#ApplicationId').trigger('change');
+            }
+        }, 500);
+
+        var openedTables = localStorage.getItem('openedTables');
+        if (openedTables) 
+        {
+            try {
+                var ids = JSON.parse(openedTables);
+                ids.forEach(function(id) {
+                    $('#' + id).collapse('show');
+                });
+            } catch (e) {}
+            localStorage.removeItem('openedTables');
+        }
+    });
+
+    function Save() {
+        objAjax.parameters = {
+            Id: "@Model.Id",
+            Name: $('#@nameof(SchemaViewModel.Name)').val(),
+            Database: $('#@nameof(SchemaViewModel.Database)').val(),
+            Description: $('#@nameof(SchemaViewModel.Description)').val(),
+            ApplicationId: $('#ApplicationId').val(),
+        };
+        objAjax.divLoading = ".show>>>.modal-body";
+        AjaxAsync("@Model.UrlAjax", window.objAjax,
+            function (data) {
+                window.location.href="@ConstPathUrl.Schema";
+            });
+    }
+
+    function back() {
+        window.location.href="@ConstPathUrl.Schema";
+    }
+
+        // Hiển thị modal thêm bảng
+    function addTable() {
+        $('#modalTableTitle').text('Thêm bảng');
+        $('#modalTableId').val('');
+        $('#modalTableName').val('');
+        $('#modalTable').modal('show');
+    }
+
+    function editTable(tableId) {
+        // Tìm thông tin bảng từ Razor Model
+        var table = null;
+        @foreach (var t in Model.SchemaViewModel.Tables)
+        {
+                <text>
+                if (tableId === '@t.Id') {
+                    table = {
+                        Id: '@t.Id',
+                        Name: '@t.Name'
+                    };
+                }
+                </text>
+        }
+
+        $('#modalTableTitle').text('Sửa bảng');
+        $('#modalTableId').val(tableId);
+        $('#modalTableName').val(table ? table.Name : '');
+        $('#modalTable').modal('show');
+    }
+
+    // Hiển thị modal thêm trường
+    function addColumn(tableId) {
+        $('#modalColumnTitle').text('Thêm trường');
+        $('#modalColumnId').val('');
+        $('#modalColumnTableId').val(tableId);
+        $('#modalColumnName').val('');
+        $('#modalColumnDataType').val('');
+        $('#modalColumnIsEncrypt').prop('checked', false);
+        $('#modalColumn').modal('show');
+    }
+
+    function editColumn(columnId) {
+        // Tìm thông tin trường từ Razor Model
+        var column = null;
+        @foreach (var t in Model.SchemaViewModel.Tables)
+        {
+                foreach (var c in t.TableDetails)
+                {
+                        <text>
+                        if (columnId === '@c.Id') {
+                            column = {
+                                Id: '@c.Id',
+                                TableId: '@t.Id',
+                                Name: '@c.Name',
+                                DataType: '@c.DataType',
+                                IsEncrypt: @c.IsEncrypt.ToString().ToLower()
+                            };
+                        }
+                        </text>
+                }
+        }
+
+        $('#modalColumnTitle').text('Sửa trường');
+        $('#modalColumnId').val(columnId);
+        $('#modalColumnTableId').val(column ? column.TableId : '');
+        $('#modalColumnName').val(column ? column.Name : '');
+        $('#modalColumnDataType').val(column ? column.DataType : '');
+        $('#modalColumnIsEncrypt').prop('checked', column ? column.IsEncrypt === true : false);
+        $('#modalColumn').modal('show');
+    }
+
+    function deleteColumn(columnId) {
+        SwalConfirm("Bạn có chắc muốn xóa thông tin này không?",
+                function () {
+                    AjaxAsync("/Api/TableDetail/RemoveAsync/" + columnId, window.objAjax,
+                        function () {
+                            window.location.reload();
+                        });
+                }, "", "500", "question", "Xác nhận");
+    }
+
+    function saveStatusTable() 
+    {
+        // Lưu trạng thái các bảng đang mở vào localStorage
+        var openedTables = [];
+        $('.collapse.show').each(function() {
+            openedTables.push($(this).attr('id'));
+        });
+        localStorage.setItem('openedTables', JSON.stringify(openedTables));
+    }
+
+    function saveTable() {
+        var tableId = $('#modalTableId').val();
+        var tableName = $('#modalTableName').val();
+        var schemaId = "@Model.SchemaViewModel.Id"; // Lấy SchemaId từ Razor Model
+
+        // Nếu tableId rỗng, gửi null hoặc chuỗi Guid rỗng
+        var idValue = tableId != "" ? tableId : "@Guid.Empty";
+
+        var payload = {
+            tableViewModel: {
+                Id: idValue,
+                Name: tableName,
+                SchemaId: schemaId
+            }
+        };
+
+        var url, type;
+        if (tableId == "") {
+            url = '/api/table/InsertAsync';
+            type = 'POST';
+        } else {
+            url = '/api/table/UpdateAsync/' + tableId;
+            type = 'PUT';
+        }
+
+        objAjax.parameters = {
+            Id: idValue,
+                Name: tableName,
+                SchemaId: schemaId,
+        };
+        objAjax.divLoading = ".show>>>.modal-body";
+        AjaxAsync(url, window.objAjax,
+        function (data) {
+            $('#modalTable').modal('hide');
+            location.reload();
+        });
+    }
+
+    function deleteTable(tableId) {
+
+        SwalConfirm("Bạn có chắc muốn xóa thông tin này không?",
+                function () {
+                    AjaxAsync("/Api/Table/RemoveAsync/" + tableId, window.objAjax,
+                        function () {
+                            window.location.reload();
+                        });
+                }, "", "500", "question", "Xác nhận");
+    }
+
+    function saveColumn() {
+        var columnId = $('#modalColumnId').val();
+        var tableId = $('#modalColumnTableId').val();
+        var columnName = $('#modalColumnName').val();
+        var dataType = $('#modalColumnDataType').val();
+        var isEncrypt = $('#modalColumnIsEncrypt').is(':checked');
+
+        if (columnId == "") {
+            url = '/api/tableDetail/InsertAsync';
+        }
+        else {
+            url = '/api/tableDetail/UpdateAsync/' + columnId;
+        }
+
+        objAjax.parameters = {
+            Id: columnId == "" ? "@Guid.Empty" : columnId,
+            TableId: tableId,
+            Name: columnName,
+            DataType: dataType,
+            IsEncrypt: isEncrypt
+        };
+        objAjax.divLoading = ".show>>>.modal-body";
+        AjaxAsync(url, window.objAjax,
+        function (data) {
+            $('#modalColumn').modal('hide');
+            saveStatusTable();
+            location.reload();
+        });
+    }
+
+    function applyPolicy() {
+        $('#policyModal').modal('show');
+    }
+
+</script>

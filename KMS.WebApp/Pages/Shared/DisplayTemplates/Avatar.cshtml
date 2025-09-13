@@ -1,0 +1,9 @@
+﻿@model KMS.Core.ViewModels.Identity.AvatarViewModel
+@if (Model.HasAvatar)
+{
+    <div class="text-center" data-bs-toggle="tooltip" data-bs-html="true" data-bs-original-title="@Model.UserName <br/> @Model.FullName">
+        <a href="/Profile/@Model.UserName">
+            <img alt="Pic" src="@Model.Avatar" style="object-fit: cover" class="rounded-circle w-30px h-30px">
+        </a>
+    </div>
+}

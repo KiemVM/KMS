@@ -1,0 +1,61 @@
+﻿@model InputDateRangeViewModel
+@if (!string.IsNullOrWhiteSpace(Model.Id))
+{
+    <div class="form-control form-control-floating card">
+        <input placeholder="none" type="text" class="form-input" id="@Model.Id">
+        @if (Model.IsLabel)
+        {
+            <label class="form-label">@Model.Text</label>
+            @if (Model.IsRequire)
+            {
+                <span class="text-danger">*</span>
+            }
+        }
+    </div>
+
+    <script type="text/javascript">
+        $('#@Model.Id').on('focusin', function () {
+             console.log("Saving value " + $(this).val());
+             $(this).data('val', $(this).val());
+         });
+         $('#@Model.Id').on('change', function () {
+             var prev = $(this).data('val');
+             var current = $(this).val();
+             if (prev != undefined) {
+        @Model.FuncJsOnchange;
+             }
+         });
+
+
+         $(function () {
+             $('#@Model.Id').data('daterangepicker').setStartDate('@Model.DateStart.ConvertDateToString()');
+             $('#@Model.Id').data('daterangepicker').setEndDate('@Model.DateEnd.ConvertDateToString()');
+         });
+
+         var start = moment().subtract(90, "days");
+         var end = moment().subtract(0, "days");
+         function cb(start, end) {
+             $("#@Model.Id").html(start.format("DD/MM/yyyy") + " - " + end.format("DD/MM/yyyy"));
+         }
+         $("#@Model.Id").daterangepicker({
+             linkedCalendars: false,
+             showDropdowns: true,
+             dateFormat: 'DD/MM/yyyy',
+             startDate: start,
+             endDate: end,
+             locale: {
+                 format: 'DD/MM/yyyy'
+             },
+             ranges: {
+                 "Hôm nay": [moment(), moment()],
+                 "Hôm qua": [moment().subtract(1, "days"), moment().subtract(1, "days")],
+                 "7 ngày trước": [moment().subtract(6, "days"), moment()],
+                 "30 ngày trước": [moment().subtract(29, "days"), moment()],
+                 "Tháng này": [moment().startOf("month"), moment().endOf("month")],
+                 "Tháng trước": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
+             }
+         }, cb);
+
+         cb(start, end);
+    </script>
+}

@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <meta property="og:locale" content="vi_VN" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:url" content="" />
+    <meta property="og:site_name" content="" />
+    <link rel="canonical" href="" />
+    <link href="@ConstUrl.WebCdn/assets/2.0/css/plugins.bundle.min.css" rel="stylesheet" type="text/css" />
+    <link href="@ConstUrl.WebCdn/assets/2.0/css/style.bundle.min.css" rel="stylesheet" type="text/css" />
+    <link href="@ConstUrl.WebCdn/assets/2.0/css/jquery.loading.min.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        var objAjax = {
+            parameters: undefined,
+            divLoading: undefined
+        }
+    </script>
+</head>
+<body id="kt_body" class="app-blank">
+    <script>var defaultThemeMode = "light"; var themeMode; if (document.documentElement) { if (document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if (localStorage.getItem("data-bs-theme") !== null) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
+    <div class="d-flex flex-column flex-root" id="kt_app_root">
+        <div class="d-flex flex-column flex-lg-row flex-column-fluid">
+            <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 order-2 order-lg-1">
+                @RenderBody()
+                <div class="w-lg-500px d-flex flex-stack px-10 mx-auto" style="width:100%">
+                    <div class="me-10">
+                        <button class="btn btn-flex btn-link btn-color-gray-700 btn-active-color-primary rotate fs-base" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" data-kt-menu-offset="0px, 0px">
+                            <img data-kt-element="current-lang-flag" class="w-20px h-20px rounded me-3" src="@ConstUrl.WebCdn/lib/media/flags/vietnam.svg" alt="" />
+                            <span data-kt-element="current-lang-name" class="me-1">Vietnam</span>
+                            <span class="d-flex flex-center rotate-180">
+                                <i class="ki-outline ki-down fs-5 text-muted m-0"></i>
+                            </span>
+                        </button>
+                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-4 fs-7" data-kt-menu="true" id="kt_auth_lang_menu">
+                            <div class="menu-item px-3">
+                                <a href="#" class="menu-link d-flex px-5" data-kt-lang="English">
+                                    <span class="symbol symbol-20px me-4">
+                                        <img data-kt-element="lang-flag" class="rounded-1" src="@ConstUrl.WebCdn/lib/media/flags/united-states.svg" alt="" />
+                                    </span>
+                                    <span data-kt-element="lang-name">English</span>
+                                </a>
+                            </div>
+                            <div class="menu-item px-3">
+                                <a href="#" class="menu-link d-flex px-5" data-kt-lang="Spanish">
+                                    <span class="symbol symbol-20px me-4">
+                                        <img data-kt-element="lang-flag" class="rounded-1" src="@ConstUrl.WebCdn/lib/media/flags/vietnam.svg" alt="" />
+                                    </span>
+                                    <span data-kt-element="lang-name">Vietnam</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex fw-semibold text-primary fs-base gap-5">
+                        <a href="" target="_blank">Terms</a>
+                        <a href="" target="_blank">Liên hệ </a>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url(@ConstUrl.WebCdn/lib/media/auth/bg14.jpg)">
+                <div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
+                    <a href="/" class="mb-0 mb-lg-12">
+                        <img alt="Logo" src="~/images/logo.png" class="h-85px h-lg-90px" />
+                    </a>
+                    <img class="d-none d-lg-block mx-auto w-470px w-md-50 w-xl-500px mb-10 mb-lg-20" src="@ConstUrl.WebCdn/lib/media/auth/4.png" alt="" />
+                    <h1 class="d-none d-lg-block text-white fs-2qx fw-bolder text-center mb-7">Hệ thống bảo vệ dữ liệu cá nhân (SaaS)</h1>
+                    <h1 class="d-none d-lg-block text-white fs-2 fw-bolder text-center mb-7">CÔNG TY TNHH PHÁT TRIỂN CÔNG NGHỆ ABC</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/plugins.bundle.min.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/scripts.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/vn.min.js"></script>
+    <link href="@ConstUrl.WebCdn/assets/2.0/css/_layout.min.css" rel="stylesheet" type="text/css" />
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/jquery.loading.min.min.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/site.min.js"></script>
+    <script src="@ConstUrl.WebCdn/assets/2.0/js/library.min.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript">
+        function LoadAll() {
+            KTApp.init(); KTDrawer.init(); KTMenu.init(); KTScroll.init(); KTSticky.init(); KTSwapper.init(); KTToggle.init(); KTScrolltop.init(); KTDialer.init(); KTImageInput.init(); KTPasswordMeter.init()
+        }
+        var ProjectName = "SaaS";
+        var ConstUrl = {
+            ApiErrorCrm: "@ConstUrl.ApiErrorCrm",
+            WebFile: "@ConstUrl.WebFile",
+            WebCrm: "@ConstUrl.WebCrm",
+            WebCdn: "@ConstUrl.WebCdn"
+        }
+        //Đăng xuất hệ thống
+        function LogOut() {
+            objAjax.divLoading = "body";
+            AjaxGetAsync("/Api/Auth/Logout", objAjax,
+                function (data) {
+                    SaveToken("");
+                    SaveRefreshToken("");
+                    window.location.href = "/Login";
+                });
+        }
+    </script>
+</body>
+</html>

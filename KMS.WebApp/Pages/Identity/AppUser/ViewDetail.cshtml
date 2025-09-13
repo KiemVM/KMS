@@ -1,0 +1,60 @@
+@page "/User/ViewDetail"
+@model ViewDetailModel
+@{
+    Layout = null;
+}
+<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered mw-800px">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="span-header" id="Label"><img src="/images/logo-while.png" style="width: 30px" /> @Model.Title</span>
+            <button class="btn btn-sm btn-icon" data-bs-dismiss="modal">
+                <span class="icon">
+                    <i class="las la-times fs-1 text-white"></i>
+                </span>
+            </button>
+        </div>
+        <div class="modal-body py-lg-10">
+            <div class="w-100">
+                <div class="row">
+                    <div class="col-lg-4 mb-3">
+                        <div class="fw-bolder">Loại tài khoản</div>
+                        <div class="text-gray-600 pt-1">@Model.AppUserViewModel?.Type?.Display()</div>
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        <div class="fw-bolder">Họ và tên</div>
+                        <div class="text-gray-600 pt-1">@Model.AppUserViewModel?.FullName</div>
+                    </div>
+
+                    <div class="col-lg-4 mb-3">
+                        <div class="fw-bolder">Tên đăng nhập</div>
+                        <div class="text-gray-600 pt-1">@Model.AppUserViewModel?.UserName</div>
+                    </div>
+
+                    <div class="col-lg-4 mb-3">
+                        <div class="fw-bolder">Email </div>
+                        <div class="text-gray-600 pt-1">@Model.AppUserViewModel?.Email</div>
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        <div class="fw-bolder">Số điện thoại </div>
+                        <div class="text-gray-600 pt-1">@Model.AppUserViewModel?.PhoneNumber</div>
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        <div class="fw-bolder">Tài khoản </div>
+                        <div class="text-gray-600 pt-1">@Model.AppUserViewModel?.BankNumber</div>
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        <div class="fw-bolder">Ngày tạo</div>
+                        <div class="text-gray-600 pt-1">@Model.AppUserViewModel?.DateCreated.ConvertDateTimeToString()</div>
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        <div class="fw-bolder">Ngày cập nhật</div>
+                        <div class="text-gray-600 pt-1">@Model.AppUserViewModel?.DateModified.ConvertDateTimeToString()</div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <button type="button" class="btn btn-light w-125px" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+﻿@model InputFormViewModel
+@if (!string.IsNullOrWhiteSpace(Model.Id))
+{
+
+    var disabled = Model.IsDisable ? "disabled" : "";
+    var className = "col-lg-12 form-control form-control-floating card";
+    if (!Model.IsLabel)
+    {
+        className = "col-lg-12 form-control-floating mt-3";
+    }
+
+    @if (!Model.IsSearch)
+    {
+        <div class="form-group row">
+            <div class="@className">
+                @if (Model.IsDialog)
+                {
+                    <select id="@Model?.Id" @disabled placeholder="none" class="form-input form-select" data-control="select2" data-placeholder="Chưa chọn" data-allow-clear="true" data-dropdown-parent="#FormOpen"
+                            onchange='@(string.IsNullOrEmpty(Model?.FuncJsOnchange) ? "" : $"{Model?.FuncJsOnchange}")'>
+                    </select>
+                }
+                else
+                {
+                    <select id="@Model?.Id" @disabled placeholder="none" class="form-input form-select" data-control="select2" data-placeholder="Chưa chọn" data-allow-clear="true"
+                            onchange='@(string.IsNullOrEmpty(Model?.FuncJsOnchange) ? "" : $"{Model?.FuncJsOnchange}")'>
+                    </select>
+                }
+                @if (Model?.IsLabel ?? true)
+                {
+                    <label class="form-label" for="@Model?.Id">
+                        @Model?.Text
+                        @if (Model?.IsRequire ?? false)
+                        {
+                            <span class="text-danger">*</span>
+                        }
+                    </label>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="@className">
+            @if (Model.IsDialog)
+            {
+                <select id="@Model?.Id" @disabled placeholder="none" class="form-input form-select" data-control="select2" data-placeholder="Chưa chọn" data-allow-clear="true" data-dropdown-parent="#FormOpen"
+                        onchange='@(string.IsNullOrEmpty(Model?.FuncJsOnchange) ? "" : $"{Model?.FuncJsOnchange}")'>
+                </select>
+            }
+            else
+            {
+                <select id="@Model?.Id" @disabled placeholder="none" class="form-input form-select" data-control="select2" data-placeholder="Chưa chọn" data-allow-clear="true"
+                        onchange='@(string.IsNullOrEmpty(Model?.FuncJsOnchange) ? "" : $"{Model?.FuncJsOnchange}")'>
+                </select>
+            }
+            @if (Model?.IsLabel ?? true)
+            {
+                <label class="form-label" for="@Model?.Id">
+                    @Model?.Text
+                    @if (Model?.IsRequire ?? false)
+                    {
+                        <span class="text-danger">*</span>
+                    }
+                </label>
+            }
+        </div>
+    }
+
+    <script type="text/javascript">
+        $(function () {
+            LoadComboboxApi("#@Model?.Id", "@Model?.Url", true, "@Model?.Value", window.objAjax, "Chưa chọn", "", "@Guid.Empty");
+        });
+    </script>
+}

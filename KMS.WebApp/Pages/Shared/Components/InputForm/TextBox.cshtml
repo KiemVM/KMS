@@ -1,0 +1,105 @@
+﻿@model InputFormViewModel
+@if (!string.IsNullOrWhiteSpace(Model.Id))
+{
+    var className = "col-lg-12 form-control form-control-floating card";
+    @if (!Model.IsLabel)
+    {
+        className = "col-lg-12 form-control-floating mt-3";
+    }
+    if (Model.Type == "input-date")
+    {
+        if (Model.IsTime)
+            Model.Type = "input-datetime";
+        else
+        {
+            try
+            {
+                Model.Value = (Model.Value ?? "").Split(' ')[0];
+            }
+            catch (Exception)
+            {
+                Model.Value = Model.Value;
+            }
+        }
+    }
+
+    @if (!Model.IsSearch)
+    {
+        <div class="form-group row ">
+            <div class="@className">
+                @if (Model.IsNumber)
+                {
+                    if (!string.IsNullOrEmpty(Model.FuncJsOnchange))
+                    {
+                        <input id="@Model.Id" type="text" style="text-align:right" onchange="@(Model.FuncJsOnchange)" class="form-input @(Model.Type)" onkeyup="FormatMoneyNew(this)" onkeypress="return validateFloatKeyPress(this, event);" placeholder="none" value="@Model.Value">
+                    }
+                    else
+                    {
+                        <input id="@Model.Id" type="text" style="text-align:right" class="form-input @(Model.Type)" onkeyup="FormatMoneyNew(this)" onkeypress="return validateFloatKeyPress(this, event);" placeholder="none" value="@Model.Value">
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(Model.FuncJsOnchange))
+                    {
+                        <input id="@Model.Id" type="text" class="form-input @(Model.Type)" placeholder="none" value="@Model.Value" onchange="@(Model.FuncJsOnchange)">
+
+                    }
+                    else
+                    {
+                        <input id="@Model.Id" type="text" class="form-input @(Model.Type)" placeholder="none" value="@Model.Value">
+                    }
+                }
+                @if (Model.IsLabel)
+                {
+                    <label class="form-label" for="@Model.Id">
+                        @Model?.Text
+                        @if (Model?.IsRequire ?? false)
+                        {
+                            <span class="text-danger">*</span>
+                        }
+                    </label>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="@className">
+            @if (Model.IsNumber)
+            {
+                if (!string.IsNullOrEmpty(Model.FuncJsOnchange))
+                {
+                    <input id="@Model.Id" type="text" style="text-align:right" onchange="@(Model.FuncJsOnchange)" class="form-input @(Model.Type)" onkeyup="FormatMoneyNew(this)" onkeypress="return validateFloatKeyPress(this, event);" placeholder="none" value="@Model.Value">
+                }
+                else
+                {
+                    <input id="@Model.Id" type="text" style="text-align:right" class="form-input @(Model.Type)" onkeyup="FormatMoneyNew(this)" onkeypress="return validateFloatKeyPress(this, event);" placeholder="none" value="@Model.Value">
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(Model.FuncJsOnchange))
+                {
+                    <input id="@Model.Id" type="text" class="form-input @(Model.Type)" placeholder="none" value="@Model.Value" onchange="@(Model.FuncJsOnchange)">
+
+                }
+                else
+                {
+                    <input id="@Model.Id" type="text" class="form-input @(Model.Type)" placeholder="none" value="@Model.Value">
+                }
+            }
+            @if (Model.IsLabel)
+            {
+                <label class="form-label" for="@Model.Id">
+                    @Model?.Text
+                    @if (Model?.IsRequire ?? false)
+                    {
+                        <span class="text-danger">*</span>
+                    }
+                </label>
+            }
+        </div>
+    }
+
+}

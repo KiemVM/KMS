@@ -1,0 +1,35 @@
+﻿@model ButtonViewModel
+@if (Model.Id == Guid.Empty)
+{
+
+}
+else if (!string.IsNullOrWhiteSpace(Model.Url))
+{
+    <a href="@Model.Url" class="btn btn-primary" data-bs-toggle="tooltip" data-placement="top" title="@(string.IsNullOrEmpty(Model.Text) ? "Thêm mới" :Model.Text)">
+        <i class="las la-plus-circle fs-1 text-white"></i>
+        <span>
+            @(string.IsNullOrEmpty(Model.Text) ? "Thêm mới" : Model.Text)
+        </span>
+    </a>
+}
+else
+{
+    if (Model.FuncJs.Contains("(") && Model.FuncJs.Contains(")"))
+    {
+        <a href="javascript:@(Model.FuncJs)" class="btn btn-primary" data-bs-toggle="tooltip" data-placement="top" title="@(string.IsNullOrEmpty(Model.Text) ? "Thêm mới" :Model.Text)">
+            <i class="las la-plus-circle fs-1 text-white"></i>
+            <span>
+                @(string.IsNullOrEmpty(Model.Text) ? "Thêm mới" : Model.Text)
+            </span>
+        </a>
+    }
+    else
+    {
+        <a type="button" class="btn btn-primary" href="javascript:AddOrUpdate('@Guid.Empty')" data-bs-toggle="tooltip" data-placement="top" title="@(string.IsNullOrEmpty(Model.Text) ? "Thêm mới" :Model.Text)">
+            <i class="las la-plus-circle fs-1 text-white"></i>
+            <span>
+                @(string.IsNullOrEmpty(Model.Text) ? "Thêm mới" : Model.Text)
+            </span>
+        </a>
+    }
+}

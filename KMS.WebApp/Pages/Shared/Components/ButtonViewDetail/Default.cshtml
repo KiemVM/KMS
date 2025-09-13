@@ -1,0 +1,16 @@
+﻿@model ButtonViewModel
+@if (Model.Id != Guid.Empty && !string.IsNullOrWhiteSpace(Model.Text) && Model.IsRole)
+{
+    if (!string.IsNullOrWhiteSpace(Model.Url))
+    {
+        <a href="@Model.Url" data-bs-toggle="tooltip" data-placement="top" title="Bấm vào đây để xem chi tiết">@Html.Raw(Model.Text)</a>
+    }
+    else
+    {
+        <a href="javascript:ViewDetail('@Model.Id')">@Html.Raw(Model.Text)</a>
+    }
+}
+else
+{
+    @Html.Raw(Model.Text)
+}

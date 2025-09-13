@@ -1,0 +1,101 @@
+﻿@page "/phan-quyen"
+@using Microsoft.OpenApi.Extensions
+@model IndexModel
+@{
+    ViewBag.Title = ConstTitle.Role;
+    ViewBag.ActiveMenu = ConstPathUrl.Role;
+}
+<div class="content flex-column-fluid" id="kt_content">
+    <div class="toolbar d-flex flex-stack flex-wrap" id="kt_toolbar">
+        <div class="page-title d-flex flex-column py-1">
+            <h1 class="d-flex align-items-center my-1">
+                <span class="text-primary fw-bolder fs-1 ms-1">@ViewBag.Title</span>
+            </h1>
+        </div>
+    </div>
+    <div class="card-header" style="border-bottom: none;">
+        <div class="col-lg-12">
+            <div class="row border-0 pt-4">
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="form-control form-control-floating card">
+                            <input placeholder="none" type="text" class="form-input" id="Search" onchange="Search()" value="@Html.Raw(Model.Search)">
+                            <label class="form-label">Tìm kiếm....</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 text-end">
+                    @await Component.InvokeAsync("ButtonInsert", Model.InsertRole())
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="card-body py-3">
+        <div class="table-responsive">
+            <table class="table table-row-dashed table-row-bordered table-row-gray-300 align-middle gs-0" id="ItemModel">
+                <thead>
+                    <tr class="fw-bolder bg-primary text-white">
+                        <th class="w-200px text-center">Mã phân quyền</th>
+                        <th>Tên hiển thị</th>
+                        <th class="w-150px text-center">Chức năng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model?.PagedResult?.RowCount == 0)
+                    {
+                        <partial name="~/Pages/Shared/Components/Empty/Table.cshtml" model="10" />
+                    }
+                    else
+                    {
+                        foreach (var obj in Model?.PagedResult?.Results! ?? new List<AppRoleViewModel>())
+                        {
+                            <tr class="">
+                                <td class="text-center">
+                                    @await Component.InvokeAsync("ButtonViewDetail", Model?.ViewDetailRole(obj))
+                                </td>
+                                <td>
+                                    @Html.Raw(obj?.DisplayName)
+                                </td>
+                                <td class="text-center">
+                                    @await Component.InvokeAsync("ButtonUpdate", Model?.UpdateRole(obj))
+                                    @await Component.InvokeAsync("ButtonRemove", Model?.RemoveRole(obj))
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            @await Component.InvokeAsync("Pager", Model?.PagedResult)
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-select2" id="FormOpen" data-bs-backdrop="static" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+</div>
+<script type="text/javascript">
+    function Search() {
+        var dataSearch = {
+            PageIndex: 1,
+            PageSize: $("#PageSize").val(),
+            Search: $("#Search").val(),
+        };
+        var url = "";
+        if (dataSearch.PageIndex >= 1) url += window.location.pathname + "?PageIndex=1";
+        if (dataSearch.PageSize !== "") url += "&PageSize=" + dataSearch.PageSize;
+        if (dataSearch.Search !== "") url += "&Search=" + dataSearch.Search;
+        url = decodeURI(url);
+        window.location.href = url;
+    }
+
+    function AddOrUpdate(id, type) {
+        var url = CreateURL("/Role/AddOrUpdate", { Id: id, Type: type });
+        AjaxLoadPartial(url, '.show>>>.modal-body',
+            function (html) {
+                $("#FormOpen").html(html);
+                $('#FormOpen').modal('show');
+                LoadAll();
+            });
+    }
+</script>
