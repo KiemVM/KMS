@@ -35,7 +35,7 @@ namespace KMS.Data.Repositories.Identity
         private readonly IMapper _mapper;
         private readonly RoleManager<AppRole> _roleManager;
 
-        public RoleRepository(SaaSContext context, IMapper mapper, RoleManager<AppRole> roleManager) : base(context)
+        public RoleRepository(KMSContext context, IMapper mapper, RoleManager<AppRole> roleManager) : base(context)
         {
             _mapper = mapper;
             _roleManager = roleManager;

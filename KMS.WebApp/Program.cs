@@ -37,7 +37,7 @@ builder.Services.AddCors(o => o.AddPolicy(projectCorsPolicy, corsPolicyBuilder =
 var connectionString = configuration.GetConnectionString("DefaultConnection");
 
 //Config DB Context and ASP.NET Core Identity
-builder.Services.AddDbContext<SaaSContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<KMSContext>(options => options.UseSqlServer(connectionString));
 
 // **FIX 1: XÓA DUPLICATE AddDistributedSqlServerCache và chỉ giữ lại 1**
 builder.Services.AddDistributedSqlServerCache(options =>
@@ -52,7 +52,7 @@ builder.Services.AddDistributedSqlServerCache(options =>
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<SaaSContext>();
+    .AddEntityFrameworkStores<KMSContext>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -162,7 +162,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromHours(2); // Thời gian session expire
-    options.Cookie.Name = "SaaSPC.Session";
+    options.Cookie.Name = "KMSPC.Session";
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true; // **QUAN TRỌNG**: Cho phép hoạt động mà không cần consent
     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;

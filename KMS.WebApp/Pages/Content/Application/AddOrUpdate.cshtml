@@ -37,10 +37,10 @@
             <div class="col-lg-3 mb-3">
                 <div class="form-group row">
                     <div class="col-lg-12 form-control form-control-floating card">
-                        <select placeholder="none" class="form-input form-select" data-control="select2" id="DatabaseId" data-placeholder="Chọn" data-minimum-results-for-search="Infinity">
+                        <select placeholder="none" class="form-input form-select" data-control="select2" id="KeyId" data-placeholder="Chọn" data-minimum-results-for-search="Infinity">
                             <option value=""></option>
                         </select>
-                            <label class="form-label" for="DatabaseId">Database<span class="text-danger">*</span></label>
+                            <label class="form-label" for="KeyId">Key<span class="text-danger">*</span></label>
                     </div>
                 </div>
             </div>
@@ -87,12 +87,12 @@
 <script type="text/javascript">
     $(function() {
         @{
-            var firstSchemaId = (Model.ApplicationViewModel.Schemas != null && Model.ApplicationViewModel.Schemas.Any())
-                ? Model.ApplicationViewModel.Schemas.First().Id
+            var firstSchemaId = (Model.ApplicationViewModel.Keys != null && Model.ApplicationViewModel.Keys.Any())
+                ? Model.ApplicationViewModel.Keys.First().Id
                 : Guid.Empty;
         }
         LoadComboboxTreeApiForName("#CompanyId", "/Api/Company/SelectTreeByType", true , '@Html.Raw(Model?.ApplicationViewModel.CompanyId)', window.objAjax, "Công ty");
-        LoadComboboxTreeApiForName("#DatabaseId", "/Api/Schema/SelectTreeByType", true , '@Html.Raw(firstSchemaId)', window.objAjax, "Database");
+        LoadComboboxTreeApiForName("#KeyId", "/Api/Key/SelectTreeByType", true , '@Html.Raw(firstSchemaId)', window.objAjax, "Key");
     });
 
 
@@ -121,10 +121,10 @@
 
     function Save() {
         // Nếu chỉ chọn một schema từ dropdown
-        var schemaId = $('#DatabaseId').val() || '@Guid.Empty';
-        var schemaIds = [];
-        if (schemaId && schemaId !== '@Guid.Empty') {
-            schemaIds.push(schemaId);
+        var keyId = $('#KeyId').val() || '@Guid.Empty';
+        var keyIds = [];
+        if (keyId && keyId !== '@Guid.Empty') {
+            keyIds.push(keyId);
         }
 
         objAjax.parameters = {
@@ -133,7 +133,7 @@
             Description: $('#@nameof(ApplicationViewModel.Description)').val(),
             Image: $('#Image').val(),
             CompanyId: $('#CompanyId').val(),
-            SchemaIds: schemaIds // truyền mảng
+            KeyIds: keyIds // truyền mảng
         };
         objAjax.divLoading = ".show>>>.modal-body";
         AjaxAsync("@Model.UrlAjax", window.objAjax,

@@ -12,9 +12,9 @@ using KMS.Common.Constants;
 
 namespace KMS.Data
 {
-    public class SaaSContext : IdentityDbContext<AppUser, AppRole, Guid>
+    public class KMSContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
-        public SaaSContext(DbContextOptions options) : base(options)
+        public KMSContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -23,9 +23,7 @@ namespace KMS.Data
         public DbSet<DatabaseCache> DatabaseCaches { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Application> Applications { get; set; }
-        public DbSet<Table>  Tables { get; set; }
-        public DbSet<Schema> Schemas { get; set; }
-        public DbSet<TableDetail> TableDetails { get; set; }
+        public DbSet<Key> Keys { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -13,7 +13,7 @@ namespace KMS.Common.Constants
         public static string Delete = "Xóa";
         public static string View = "Xem";
         public static string RoleAdmin = "Admin";
-        public static string ProjectName = "SaaS";
+        public static string ProjectName = "KMS";
         public static Guid GuidAll = Guid.Parse("5c120683-4802-40b6-805e-3b54d492a2a3");
         public static Guid UserConfirmJob = Guid.Parse("68096520-5B01-47BA-9E58-013BEC6C2CAE");
     }

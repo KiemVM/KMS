@@ -4,17 +4,17 @@ using Microsoft.Extensions.Configuration;
 
 namespace KMS.Data
 {
-    public class SaaSContextFactory : IDesignTimeDbContextFactory<SaaSContext>
+    public class KMSContextFactory : IDesignTimeDbContextFactory<KMSContext>
     {
-        public SaaSContext CreateDbContext(string[] args)
+        public KMSContext CreateDbContext(string[] args)
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("AppSettings.json")
                 .Build();
-            var builder = new DbContextOptionsBuilder<SaaSContext>();
+            var builder = new DbContextOptionsBuilder<KMSContext>();
             builder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            return new SaaSContext(builder.Options);
+            return new KMSContext(builder.Options);
         }
     }
 }

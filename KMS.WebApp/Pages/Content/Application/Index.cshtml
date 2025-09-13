@@ -39,11 +39,11 @@
                 <div class="col-lg-2">
                     <div class="row">
                         <div class="form-control form-control-floating card">
-                            <select id="DatabaseId" placeholder="none" class="form-input form-select" data-control="select2" data-placeholder="Tất cả Database" data-minimum-results-for-search="Infinity" onchange='Search()'>
-                                <option value="">Tất cả Database</option>
+                            <select id="KeyId" placeholder="none" class="form-input form-select" data-control="select2" data-placeholder="Tất cả Key" data-minimum-results-for-search="Infinity" onchange='Search()'>
+                                <option value="">Tất cả Key</option>
                                 <!-- Categories will be loaded via JavaScript -->
                             </select>
-                            <label class="form-label" for="DatabaseId">Database</label>
+                            <label class="form-label" for="KeyId">Key</label>
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                         <th class="text-center w-130px">Mã</th>
                         <th>Tên ứng dụng</th>
                         <th>Tên công ty</th>
-                        <th>Tên Database</th>
+                        <th>Tên Key</th>
                         <th class="w-120px text-center">Trạng thái</th>
                         <th class="w-150px text-center">Chức năng</th>
                         <th class="w-50px"></th>
@@ -112,10 +112,10 @@
                                 </td>
                                 <td>
                                     <div class="gg-ce-1">
-                                        @foreach (var db in @obj?.Schemas)
+                                        @foreach (var db in @obj?.Keys)
                                         {
                                             @db.Name 
-                                            @if(db.Status == SchemaStatus.Delete)
+                                            @if(db.Status == KeyStatus.Delete)
                                             {
                                                 <span class="text-danger ms-1">(Đã xóa)</span>
                                             }
@@ -149,7 +149,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         LoadComboboxTreeApiForName("#CompanyId", "/Api/Company/SelectTreeByType", true , '@Html.Raw(Model?.CompanyId)', window.objAjax, "Công ty");
-        LoadComboboxTreeApiForName("#DatabaseId", "/Api/Schema/SelectTreeByType", true , '@Html.Raw(Model?.DatabaseId)', window.objAjax, "Database");
+        LoadComboboxTreeApiForName("#KeyId", "/Api/Key/SelectTreeByType", true , '@Html.Raw(Model?.KeyId)', window.objAjax, "Key");
     });
 
     function Search() {
@@ -159,7 +159,7 @@
             Search: $("#Search").val(),
             Status: parseInt($("#Status").val()) || 0,
             CompanyId: $("#CompanyId").val() || "@Guid.Empty",
-            DatabaseId: $("#DatabaseId").val() || "@Guid.Empty"
+            KeyId: $("#KeyId").val() || "@Guid.Empty"
         };
         var url = "";
         if (dataSearch.PageIndex >= 1) url += window.location.pathname + "?PageIndex=1";
@@ -167,7 +167,7 @@
         if (dataSearch.Search !== "") url += "&Search=" + dataSearch.Search;
         if (dataSearch.Status !== 1) url += "&Status=" + dataSearch.Status;
         if (dataSearch.CompanyId !== "@Guid.Empty") url += "&CompanyId=" + dataSearch.CompanyId;
-        if (dataSearch.DatabaseId !== "@Guid.Empty") url += "&DatabaseId=" + dataSearch.DatabaseId;
+        if (dataSearch.KeyId !== "@Guid.Empty") url += "&KeyId=" + dataSearch.KeyId;
         url = decodeURI(url);
         window.location.href = url;
     }

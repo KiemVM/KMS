@@ -13,9 +13,7 @@ namespace KMS.Common.Constants
         public static string Role = "Phân quyền";
         public static string Company = "Công ty";
         public static string Application = "Ứng dụng";
-        public static string Schema = "Database";
-        public static string Table = "Table";
-        public static string TableDetail = "Chi tiết Table";
+        public static string Key = "Key";
     }
 
     public static class ConstPathUrl
@@ -24,9 +22,6 @@ namespace KMS.Common.Constants
         public static string Role = "/" + ConstTitle.Role.ToSlugUrl();
         public static string Company = "/" + ConstTitle.Company.ToSlugUrl();
         public static string Application = "/" + ConstTitle.Application.ToSlugUrl();
-        public static string Schema = "/" + ConstTitle.Schema.ToSlugUrl();
-        public static string Table = "/" + ConstTitle.Table.ToSlugUrl();
-        public static string TableDetail = "/" + ConstTitle.TableDetail.ToSlugUrl();
-
+        public static string Key = "/" + ConstTitle.Key.ToSlugUrl();
     }
 }

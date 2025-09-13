@@ -18,7 +18,7 @@ namespace KMS.Data.Repositories.Log
 
     public class LogHistoryRepository : RepositoryBase<LogHistory>, ILogHistoryRepository
     {
-        public LogHistoryRepository(SaaSContext context) : base(context)
+        public LogHistoryRepository(KMSContext context) : base(context)
         {
         }
 

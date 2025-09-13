@@ -20,8 +20,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.1.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Controllers\Content\" />
-		<Folder Include="Pages\Content\" />
 		<Folder Include="Pages\Website\" />
 		<Folder Include="wwwroot\site\" />
 	</ItemGroup>

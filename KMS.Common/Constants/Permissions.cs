@@ -196,58 +196,22 @@ namespace KMS.Common.Constants
             public const string Remove = "Pms.Application.Remove";
         }
 
-        public static class Schema
+        public static class Key
         {
             [Description("Xem danh sách")]
-            public const string View = "Pms.Schema.View";
+            public const string View = "Pms.Key.View";
 
             [Description("Xem chi tiết")]
-            public const string ViewDetail = "Pms.Schema.ViewDetail";
+            public const string ViewDetail = "Pms.Key.ViewDetail";
 
             [Description("Thêm mới")]
-            public const string Insert = "Pms.Schema.Insert";
+            public const string Insert = "Pms.Key.Insert";
 
             [Description("Cập nhật")]
-            public const string Update = "Pms.Schema.Update";
+            public const string Update = "Pms.Key.Update";
 
             [Description("Xóa")]
-            public const string Remove = "Pms.Schema.Remove";
-        }
-
-        public static class Table
-        {
-            [Description("Xem danh sách")]
-            public const string View = "Pms.Table.View";
-
-            [Description("Xem chi tiết")]
-            public const string ViewDetail = "Pms.Table.ViewDetail";
-
-            [Description("Thêm mới")]
-            public const string Insert = "Pms.Table.Insert";
-
-            [Description("Cập nhật")]
-            public const string Update = "Pms.Table.Update";
-
-            [Description("Xóa")]
-            public const string Remove = "Pms.Table.Remove";
-        }
-
-        public static class TableDetail
-        {
-            [Description("Xem danh sách")]
-            public const string View = "Pms.TableDetail.View";
-
-            [Description("Xem chi tiết")]
-            public const string ViewDetail = "Pms.TableDetail.ViewDetail";
-
-            [Description("Thêm mới")]
-            public const string Insert = "Pms.TableDetail.Insert";
-
-            [Description("Cập nhật")]
-            public const string Update = "Pms.TableDetail.Update";
-
-            [Description("Xóa")]
-            public const string Remove = "Pms.TableDetail.Remove";
+            public const string Remove = "Pms.Key.Remove";
         }
     }
 }

@@ -27,7 +27,7 @@ namespace KMS.WebApp.Pages.Content.Application
         [BindProperty(SupportsGet = true)] public string Search { get; set; } = String.Empty;
         [BindProperty(SupportsGet = true)] public int PageSize { get; set; } = 10;
         [BindProperty(SupportsGet = true)] public Guid CompanyId { get; set; } = Guid.Empty;
-        [BindProperty(SupportsGet = true)] public Guid DatabaseId { get; set; } = Guid.Empty;
+        [BindProperty(SupportsGet = true)] public Guid KeyId { get; set; } = Guid.Empty;
         [BindProperty(SupportsGet = true)] public ApplicationStatus Status { get; set; } = ApplicationStatus.Create;
 
         public ButtonViewModel ViewDetailRole(ApplicationViewModel applicationViewModel)
@@ -75,7 +75,7 @@ namespace KMS.WebApp.Pages.Content.Application
 
         public async Task<IActionResult> OnGetAsync()
         {
-            PagedResult = await _unitOfWork.ApplicationRepository.PagingAsync(PageIndex, PageSize, Search, Status, CompanyId, DatabaseId);
+            PagedResult = await _unitOfWork.ApplicationRepository.PagingAsync(PageIndex, PageSize, Search, Status, CompanyId, KeyId);
             return Page();
         }
     }

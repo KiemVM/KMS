@@ -10,7 +10,7 @@ namespace KMS.Data.SeedWorks
 {
     public class DataSeeder
     {
-        public async Task SeedAsync(SaaSContext context)
+        public async Task SeedAsync(KMSContext context)
         {
             var passwordHasher = new PasswordHasher<AppUser>();
             var rootAdminRoleId = Guid.NewGuid();

@@ -41,9 +41,9 @@ namespace KMS.Data.SeedWorks
     public class RepositoryBase<T> : IRepositoryBase<T>, IDisposable where T : class
     {
         private readonly DbSet<T> _dbSet;
-        protected readonly SaaSContext _context;
+        protected readonly KMSContext _context;
 
-        public RepositoryBase(SaaSContext context)
+        public RepositoryBase(KMSContext context)
         {
             _dbSet = context.Set<T>();
             _context = context;

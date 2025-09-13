@@ -73,15 +73,15 @@
                             </div>
                         </div>
                     }
-                    @if (User.CheckPermissions(Permissions.Schema.View))
+                    @if (User.CheckPermissions(Permissions.Key.View))
                     {
                         <div class="menu-sub menu-sub-accordion">
                             <div class="menu-item">
-                                <a class="menu-link" href="@ConstPathUrl.Schema">
+                                <a class="menu-link" href="@ConstPathUrl.Key">
                                     <span class="menu-icon">
                                         <i class="ki-solid ki-fingerprint-scanning fs-2"></i>
                                     </span>
-                                    <span class="menu-title">@ConstTitle.Schema</span>
+                                    <span class="menu-title">@ConstTitle.Key</span>
                                 </a>
                             </div>
                         </div>

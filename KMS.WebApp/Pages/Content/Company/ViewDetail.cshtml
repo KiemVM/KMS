@@ -35,7 +35,7 @@
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="db-tab" data-bs-toggle="tab" data-bs-target="#db" type="button" role="tab" aria-controls="db" aria-selected="false">
-            Database Schema
+            Key
         </button>
     </li>
 </ul>
@@ -115,7 +115,7 @@
 
     <div class="tab-pane fade" id="db" role="tabpanel" aria-labelledby="db-tab">
         <div class="d-flex justify-content-end mb-3">
-            <button class="btn btn-primary" onclick="addSchema()">
+            <button class="btn btn-primary" onclick="addKey()">
                 <i class="bi bi-plus-lg"></i> Thêm mới
             </button>
         </div>
@@ -123,35 +123,44 @@
             <table class="table table-row-dashed table-row-bordered table-row-gray-300 align-middle gs-0" style="min-width:1000px">
                 <thead>
                     <tr class="fw-bolder bg-primary text-white">
-                        <th>Tên schema</th>
-                        <th class="w-120px text-center">Database</th>
+                        <th>Tên key</th>
+                        <th class="w-120px text-center">Key Data</th>
                         <th class="w-120px text-center">Trạng thái</th>
                         <th class="w-80px text-center">Sửa</th>
                         <th class="w-80px text-center">Xóa</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.CompanyViewModel.Schemas == null || !Model.CompanyViewModel.Schemas.Any())
+                    @if (Model.CompanyViewModel.Keys == null || !Model.CompanyViewModel.Keys.Any())
                     {
                         <tr>
-                            <td colspan="5" class="text-center text-muted">Không có schema nào</td>
+                            <td colspan="5" class="text-center text-muted">Không có key nào</td>
                         </tr>
                     }
                     else
                     {
-                        foreach (var schema in Model.CompanyViewModel.Schemas)
+                        foreach (var key in Model.CompanyViewModel.Keys)
                         {
-                            <tr class="@schema.Status.CssClass()">
-                                <td>@schema.Name</td>
-                                <td class="text-center">@schema.Database</td>
-                                <td class="text-center">@Html.Raw(schema.Status.Badge())</td>
+                            <tr class="@key.Status.CssClass()">
+                                <td>@key.Name</td>
+                                <td class="text-center align-middle">
+                                    <div class="input-group input-group-sm" style="max-width:120px; margin:auto;">
+                                        <input type="password" class="form-control border-0 bg-transparent text-center p-0" 
+                                               value="@key.KeyData" readonly id="keyDataInput_@key.Id" style="font-size:1rem;" />
+                                        <button type="button" class="btn btn-link p-0" tabindex="-1" 
+                                                onclick="toggleKeyDataVisibility('@key.Id')" style="color:#333;">
+                                            <i class="las la-eye" id="eyeIcon_@key.Id"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td class="text-center">@Html.Raw(key.Status.Badge())</td>
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-warning" onclick="editSchema('@schema.Id')">
+                                    <button class="btn btn-sm btn-warning" onclick="editKey('@key.Id')">
                                         <i class="bi bi-pencil"></i> Sửa
                                     </button>
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-danger" onclick="deleteSchema('@schema.Id')">
+                                    <button class="btn btn-sm btn-danger" onclick="deleteKey('@key.Id')">
                                         <i class="bi bi-trash"></i> Xóa
                                     </button>
                                 </td>
@@ -199,23 +208,37 @@
                 }, "", "500", "question", "Xác nhận");
     }
 
-    function addSchema() {
-            var url = "/Schema/AddOrUpdate?CompanyId=@Model.CompanyViewModel.Id";
+    function addKey() {
+            var url = "/Key/AddOrUpdate?CompanyId=@Model.CompanyViewModel.Id";
             window.location = url;
-        }
+    }
 
-        function editSchema(id) {
-            var url = "/Schema/AddOrUpdate?Id=" + id;
-            window.location = url;
-        }
+    function editKey(id) {
+        var url = "/Key/AddOrUpdate?Id=" + id;
+        window.location = url;
+    }
 
-        function deleteSchema(id) {
-            SwalConfirm("Bạn có chắc muốn xóa schema này không?",
-                function () {
-                    AjaxAsync("/Api/Schema/RemoveAsync/" + id, window.objAjax,
-                        function () {
-                            window.location.reload();
-                        });
-                }, "", "500", "question", "Xác nhận");
+    function deleteKey(id) {
+        SwalConfirm("Bạn có chắc muốn xóa Key này không?",
+            function () {
+                AjaxAsync("/Api/Key/RemoveAsync/" + id, window.objAjax,
+                    function () {
+                        window.location.reload();
+                    });
+            }, "", "500", "question", "Xác nhận");
+    }
+
+    function toggleKeyDataVisibility(keyId) {
+        var input = document.getElementById('keyDataInput_' + keyId);
+        var icon = document.getElementById('eyeIcon_' + keyId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('la-eye');
+            icon.classList.add('la-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('la-eye-slash');
+            icon.classList.add('la-eye');
         }
+    }
 </script>

@@ -31,7 +31,7 @@ namespace KMS.Core.ViewModels.Content
         [Comment("Trạng thái")]
 		public ApplicationStatus Status { get; set; } = ApplicationStatus.Create;
 
-        public List<SchemaViewModel> Schemas { get; set; } = new List<SchemaViewModel>();
+        public List<KeyViewModel> Keys { get; set; } = new List<KeyViewModel>();
 
         [UIHint(UiHint.Avatar)]
         public AvatarViewModel? AvatarViewModel { get; set; }

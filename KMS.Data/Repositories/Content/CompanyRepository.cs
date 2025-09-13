@@ -32,7 +32,7 @@ namespace KMS.Data.Repositories.Content
     {
         private readonly IMapper _mapper;
 
-        public CompanyRepository(SaaSContext context, IMapper mapper) : base(context)
+        public CompanyRepository(KMSContext context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
         }
@@ -194,35 +194,31 @@ namespace KMS.Data.Repositories.Content
                             Image = a.Image,
                             CompanyId = a.CompanyId,
                             Status = a.Status,
-                            Schemas = _context.Schemas
+                            Keys = _context.Keys
                                 .Where(s => s.ApplicationId == a.Id)
-                                .Select(s => new SchemaViewModel
+                                .Select(s => new KeyViewModel
                                 {
                                     Id = s.Id,
                                     Name = s.Name,
                                     Description = s.Description,
-                                    Slug = s.Slug,
                                     ApplicationId = s.ApplicationId,
-                                    Database = s.Database,
+                                    KeyData = s.KeyData,
                                     Status = s.Status,
-                                    Location = s.Location
                                 }).ToList()
                         }).ToList(),
-                    Schemas = _context.Schemas
+                    Keys = _context.Keys
                         .Where(s => _context.Applications
                             .Where(a => a.CompanyId == c.Id)
                             .Select(a => a.Id)
                             .Contains(s.ApplicationId))
-                        .Select(s => new SchemaViewModel
+                        .Select(s => new KeyViewModel
                         {
                             Id = s.Id,
                             Name = s.Name,
                             Description = s.Description,
-                            Slug = s.Slug,
                             ApplicationId = s.ApplicationId,
-                            Database = s.Database,
+                            KeyData = s.KeyData,
                             Status = s.Status,
-                            Location = s.Location
                         }).ToList()
                 })
                 .FirstOrDefaultAsync();

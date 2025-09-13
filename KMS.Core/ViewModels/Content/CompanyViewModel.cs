@@ -33,7 +33,7 @@ namespace KMS.Core.ViewModels.Content
 		[Comment("Trạng thái")]
 		public CompanyStatus Status { get; set; } = CompanyStatus.Create;
         public List<ApplicationViewModel> Applications { get; set; } = new();
-        public List<SchemaViewModel> Schemas { get; set; } = new();
+        public List<KeyViewModel> Keys { get; set; } = new();
 
         [UIHint(UiHint.Avatar)]
         public AvatarViewModel? AvatarViewModel { get; set; }

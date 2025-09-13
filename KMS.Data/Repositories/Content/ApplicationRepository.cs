@@ -30,7 +30,7 @@ namespace KMS.Data.Repositories.Content
     {
         private readonly IMapper _mapper;
 
-        public ApplicationRepository(SaaSContext context, IMapper mapper) : base(context)
+        public ApplicationRepository(KMSContext context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
         }
@@ -81,7 +81,7 @@ namespace KMS.Data.Repositories.Content
         }
 
         public async Task<PagedResult<ApplicationViewModel>> PagingAsync(
-    int page, int pageSize, string search, ApplicationStatus applicationStatus, Guid companyId, Guid schemaId)
+    int page, int pageSize, string search, ApplicationStatus applicationStatus, Guid companyId, Guid keyId)
         {
             var query = from application in FindAll()
                         join user in _context.Users on application.UserIdCreated equals user.Id
@@ -115,11 +115,11 @@ namespace KMS.Data.Repositories.Content
             {
                 query = query.Where(x => x.Status == applicationStatus);
             }
-            // Filter theo SchemaId
-            if (schemaId != Guid.Empty)
+            // Filter theo keyId
+            if (keyId != Guid.Empty)
             {
-                var appIds = await _context.Schemas
-                    .Where(s => s.Id == schemaId)
+                var appIds = await _context.Keys
+                    .Where(s => s.Id == keyId)
                     .Select(s => s.ApplicationId)
                     .ToListAsync();
 
@@ -130,20 +130,20 @@ namespace KMS.Data.Repositories.Content
 
             // Gắn Schemas cho từng ApplicationViewModel
             var appIdsForSchemas = resultList.Select(x => x.Id).ToList();
-            var schemas = await _context.Schemas
+            var keys = await _context.Keys
                 .Where(s => appIdsForSchemas.Contains(s.ApplicationId))
                 .ToListAsync();
 
             foreach (var appVm in resultList)
             {
-                appVm.Schemas = schemas
+                appVm.Keys = keys
                     .Where(s => s.ApplicationId == appVm.Id)
-                    .Select(s => new SchemaViewModel
+                    .Select(s => new KeyViewModel
                     {
                         Id = s.Id,
                         Name = s.Name,
                         Description = s.Description,
-                        Database = s.Database,
+                        KeyData = s.KeyData,
                         Status = s.Status
                     }).ToList();
             }
@@ -191,7 +191,7 @@ namespace KMS.Data.Repositories.Content
             var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == application.CompanyId);
 
             // Lấy danh sách Schemas liên kết với Application
-            var schemas = await _context.Schemas
+            var keys = await _context.Keys
                 .Where(s => s.ApplicationId == application.Id)
                 .ToListAsync();
 
@@ -207,12 +207,12 @@ namespace KMS.Data.Repositories.Content
                 Status = application.Status,
                 CompanyName = company?.Name ?? "",
                 CompanyStatus = company?.Status ?? CompanyStatus.Create,
-                Schemas = schemas.Select(s => new SchemaViewModel
+                Keys = keys.Select(s => new KeyViewModel
                 {
                     Id = s.Id,
                     Name = s.Name,
                     Description = s.Description,
-                    Database = s.Database,
+                    KeyData = s.KeyData,
                     Status = s.Status,
                     ApplicationId = s.ApplicationId
                 }).ToList()

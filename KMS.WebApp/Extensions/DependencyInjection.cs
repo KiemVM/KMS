@@ -24,10 +24,7 @@ namespace KMS.WebApp.Extensions
             services.AddScoped<ILogHistoryRepository, LogHistoryRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IApplicationRepository, ApplicationRepository>();
-            services.AddScoped<ISchemaRepository, SchemaRepository>();
-            services.AddScoped<ITableRepository, TableRepository>();
-            services.AddScoped<ITableDetailRepository, TableDetailRepository>();
-
+            services.AddScoped<IKeyRepository, KeyRepository>();
             services.AddAutoMapper(typeof(AppUserViewModel));
         }
     }

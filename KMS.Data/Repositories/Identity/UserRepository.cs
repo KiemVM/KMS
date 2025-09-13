@@ -38,7 +38,7 @@ namespace KMS.Data.Repositories.Identity
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
 
-        public UserRepository(SaaSContext context, IMapper mapper, UserManager<AppUser> userManager) : base(context)
+        public UserRepository(KMSContext context, IMapper mapper, UserManager<AppUser> userManager) : base(context)
         {
             _mapper = mapper;
             _userManager = userManager;

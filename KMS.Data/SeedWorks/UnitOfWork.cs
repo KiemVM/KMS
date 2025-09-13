@@ -9,24 +9,22 @@ namespace KMS.Data.SeedWorks
 {
     public interface IUnitOfWork : IDisposable
     {
-        SaaSContext Context { get; }
+        KMSContext Context { get; }
         ILogHistoryRepository LogHistoryRepository { get; }
         IUserRepository UserRepository { get; }
         IRoleRepository RoleRepository { get; }
         ICompanyRepository CompanyRepository { get; }
         IApplicationRepository ApplicationRepository { get; }
-        ISchemaRepository SchemaRepository { get; }
-        ITableRepository TableRepository { get; }
-        ITableDetailRepository TableDetailRepository { get; }
+        IKeyRepository KeyRepository { get; }
         Task SaveAsync();
     }
 
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly SaaSContext _context;
+        private readonly KMSContext _context;
         private readonly IMapper _mapper;
 
-        public UnitOfWork(SaaSContext context, IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public UnitOfWork(KMSContext context, IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
             _context = context;
             _mapper = mapper;
@@ -35,21 +33,17 @@ namespace KMS.Data.SeedWorks
             RoleRepository = new RoleRepository(context, mapper, roleManager);
             CompanyRepository = new CompanyRepository(context, _mapper);
             ApplicationRepository = new ApplicationRepository(context, _mapper);
-            SchemaRepository = new SchemaRepository(context, _mapper);
-            TableDetailRepository = new TableDetailRepository(context, _mapper);
-            TableRepository = new TableRepository(context, _mapper);
+            KeyRepository = new KeyRepository(context, _mapper);
         }
 
-        public SaaSContext Context => _context;
+        public KMSContext Context => _context;
         public ILogHistoryRepository LogHistoryRepository { get; private set; }
         public IUserRepository UserRepository { get; private set; }
         public IRoleRepository RoleRepository { get; private set; }
 
         public ICompanyRepository CompanyRepository { get; private set; }
         public IApplicationRepository ApplicationRepository { get; private set; }
-        public ISchemaRepository SchemaRepository { get; private set; }
-        public ITableRepository TableRepository { get; private set; }
-        public ITableDetailRepository TableDetailRepository { get; private set; }
+        public IKeyRepository KeyRepository { get; private set; }
 
         public async Task SaveAsync()
         {

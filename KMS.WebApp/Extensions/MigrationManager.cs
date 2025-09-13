@@ -9,7 +9,7 @@ namespace KMS.WebApp.Extensions
         public static WebApplication MigrateDatabase(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
-            using var context = scope.ServiceProvider.GetRequiredService<SaaSContext>();
+            using var context = scope.ServiceProvider.GetRequiredService<KMSContext>();
             context.Database.Migrate();
             new DataSeeder().SeedAsync(context).Wait();
             return app;
