@@ -72,7 +72,7 @@
             </button>
         </div>
         <div class="table-responsive">
-            <table class="table table-row-dashed table-row-bordered table-row-gray-300 align-middle gs-0" style="min-width:1000px">
+            <table class="table table-row-dashed table-row-bordered table-row-gray-300 align-middle gs-0">
                 <thead>
                     <tr class="fw-bolder bg-primary text-white">
                         <th>Tên ứng dụng</th>
@@ -120,11 +120,10 @@
             </button>
         </div>
         <div class="table-responsive">
-            <table class="table table-row-dashed table-row-bordered table-row-gray-300 align-middle gs-0" style="min-width:1000px">
+            <table class="table table-row-dashed table-row-bordered table-row-gray-300 align-middle gs-0">
                 <thead>
                     <tr class="fw-bolder bg-primary text-white">
                         <th>Tên key</th>
-                        <th class="w-120px text-center">Key Data</th>
                         <th class="w-120px text-center">Trạng thái</th>
                         <th class="w-80px text-center">Sửa</th>
                         <th class="w-80px text-center">Xóa</th>
@@ -143,16 +142,6 @@
                         {
                             <tr class="@key.Status.CssClass()">
                                 <td>@key.Name</td>
-                                <td class="text-center align-middle">
-                                    <div class="input-group input-group-sm" style="max-width:120px; margin:auto;">
-                                        <input type="password" class="form-control border-0 bg-transparent text-center p-0" 
-                                               value="@key.KeyData" readonly id="keyDataInput_@key.Id" style="font-size:1rem;" />
-                                        <button type="button" class="btn btn-link p-0" tabindex="-1" 
-                                                onclick="toggleKeyDataVisibility('@key.Id')" style="color:#333;">
-                                            <i class="las la-eye" id="eyeIcon_@key.Id"></i>
-                                        </button>
-                                    </div>
-                                </td>
                                 <td class="text-center">@Html.Raw(key.Status.Badge())</td>
                                 <td class="text-center">
                                     <button class="btn btn-sm btn-warning" onclick="editKey('@key.Id')">

@@ -143,7 +143,6 @@ namespace KMS.Data.Repositories.Content
                         Id = s.Id,
                         Name = s.Name,
                         Description = s.Description,
-                        KeyData = s.KeyData,
                         Status = s.Status
                     }).ToList();
             }
@@ -212,7 +211,6 @@ namespace KMS.Data.Repositories.Content
                     Id = s.Id,
                     Name = s.Name,
                     Description = s.Description,
-                    KeyData = s.KeyData,
                     Status = s.Status,
                     ApplicationId = s.ApplicationId
                 }).ToList()
